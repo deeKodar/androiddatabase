@@ -15,10 +15,10 @@ public class ListUsers extends AppCompatActivity {
         setContentView(R.layout.activity_list_users);
 
         final DatabaseHandler db = new DatabaseHandler(this);
-        List<User> contacts = db.getAllContacts();
+        List<User> users = db.getAllUsers();
 
 
-        for (User cn : contacts) {
+        for (User cn : users) {
             String log = "Id: " + cn.get_id() + " ,Name: " + cn.get_name() + " ,Phone: " + cn.get_password();
             // Writing Contacts to log
             Log.d("Name: ", log);

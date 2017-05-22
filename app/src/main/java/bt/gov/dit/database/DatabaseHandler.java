@@ -63,8 +63,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
-    public List<User> getAllContacts() {
-        List<User> contactList = new ArrayList<User>();
+    public List<User> getAllUsers() {
+        List<User> userList = new ArrayList<User>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_USERS;
 
@@ -79,12 +79,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 user.set_name(cursor.getString(1));
                 user.set_password(cursor.getString(2));
                 // Adding contact to list
-                contactList.add(user);
+                userList.add(user);
             } while (cursor.moveToNext());
         }
 
         // return contact list
-        return contactList;
+        return userList;
     }
     // Getting single user
     User getUser(int id) {
