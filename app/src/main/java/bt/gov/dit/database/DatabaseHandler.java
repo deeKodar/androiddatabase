@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by darshan on 5/22/17.
  */
@@ -32,10 +35,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_USERS + "("
+        String CREATE_USERS_TABLE = "CREATE TABLE " + TABLE_USERS + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
                 + KEY_PASSWORD + " TEXT" + ")";
-        db.execSQL(CREATE_CONTACTS_TABLE);
+        db.execSQL(CREATE_USERS_TABLE);
 
     }
 
@@ -60,6 +63,29 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
+    public List<User> getAllContacts() {
+        List<User> contactList = new ArrayList<User>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_USERS;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                User user = new User();
+                user.set_id(Integer.parseInt(cursor.getString(0)));
+                user.set_name(cursor.getString(1));
+                user.set_password(cursor.getString(2));
+                // Adding contact to list
+                contactList.add(user);
+            } while (cursor.moveToNext());
+        }
+
+        // return contact list
+        return contactList;
+    }
     // Getting single user
     User getUser(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
